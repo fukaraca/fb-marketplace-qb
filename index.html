@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FB Marketplace Vehicle Query Builder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>FB Marketplace Vehicle Query Builder</h1>
+</header>
+
+<main>
+    <p class="explanation">
+        Facebook Marketplace's vehicle search capabilities can be opaque, hiding powerful query parameters from the user interface. This tool exposes those parameters, allowing for highly specific and granular filtering to find exactly what you're looking for.
+    </p>
+
+    <section class="result-section">
+        <h3>Generated URL</h3>
+        <textarea id="generatedUrl" readonly rows="5"></textarea>
+        <div class="result-buttons">
+            <button id="copyUrlButton">Copy URL</button>
+            <a id="goToFbButton" class="button" href="#" target="_blank" rel="noopener noreferrer">Open in Facebook</a>
+        </div>
+    </section>
+
+
+
+    <form id="queryForm">
+        <section class="filter-section">
+            <h2>Core Vehicle Filters</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="query">Search Query</label>
+                    <input type="search" id="query" name="query" placeholder="e.g., Honda Civic">
+                </div>
+                <div class="form-group">
+                    <label for="sortBy">Sort By</label>
+                    <select id="sortBy" name="sortBy">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="minPrice">Min Price</label>
+                    <input type="number" id="minPrice" name="minPrice" min="0" placeholder="e.g., 5000">
+                </div>
+                <div class="form-group">
+                    <label for="maxPrice">Max Price</label>
+                    <input type="number" id="maxPrice" name="maxPrice" min="0" placeholder="e.g., 15000">
+                </div>
+                <div class="form-group">
+                    <label for="minMileage">Min Mileage</label>
+                    <input type="number" id="minMileage" name="minMileage" min="0" placeholder="e.g., 10000">
+                </div>
+                <div class="form-group">
+                    <label for="maxMileage">Max Mileage</label>
+                    <input type="number" id="maxMileage" name="maxMileage" min="0" placeholder="e.g., 100000">
+                </div>
+                <div class="form-group">
+                    <label for="minYear">Min Year</label>
+                    <input type="number" id="minYear" name="minYear" min="1900" max="2100" placeholder="e.g., 2010">
+                </div>
+                <div class="form-group">
+                    <label for="maxYear">Max Year</label>
+                    <input type="number" id="maxYear" name="maxYear" min="1900" max="2100" placeholder="e.g., 2020">
+                </div>
+                <div class="form-group">
+                    <label for="make">Make</label>
+                    <input type="text" id="make" name="make" placeholder="e.g., Toyota">
+                </div>
+                <div class="form-group">
+                    <label for="model">Model</label>
+                    <input type="text" id="model" name="model" placeholder="e.g., Camry">
+                </div>
+<!--                <div class="form-group">
+                    <label for="carType">Car Type</label>
+                    <input type="text" id="carType" name="carType" placeholder="e.g., sedan">
+                </div>-->
+
+
+            </div>
+            <fieldset class="form-group">
+                <legend>Item Condition</legend>
+                <div class="checkbox-multi-group">
+                    <label><input type="checkbox" name="itemCondition" value="new"> New</label>
+                    <label><input type="checkbox" name="itemCondition" value="used_like_new"> Used (Like New)</label>
+                    <label><input type="checkbox" name="itemCondition" value="used_good"> Used (Good)</label>
+                    <label><input type="checkbox" name="itemCondition" value="used_fair"> Used (Fair)</label>
+                </div>
+            </fieldset>
+            <div class="form-grid">
+                <div class="form-group checkbox-group">
+                    <label for="exact"><input type="checkbox" id="exact" name="exact"> Exact Search</label>
+                </div>
+            </div>
+        </section>
+
+        <section class="filter-section">
+            <details class="advanced-section">
+                <summary>Show Advanced & Other Filters</summary>
+                <div class="form-grid">
+                    <div class="form-group checkbox-group">
+                        <label for="carfaxHistory"><input type="checkbox" id="carfaxHistory" name="carfaxHistory"> Has Carfax History</label>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label for="isC2CListingOnly"><input type="checkbox" id="isC2CListingOnly" name="isC2CListingOnly"> C2C Listing Only</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="daysSinceListed">Days Since Listed</label>
+                        <select id="daysSinceListed" name="daysSinceListed">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryMethod">Delivery Method</label>
+                        <select id="deliveryMethod" name="deliveryMethod">
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transmissionType">Transmission Type</label>
+                        <select id="transmissionType" name="transmissionType" ></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sellerType">Seller Type</label>
+                        <input type="text" id="sellerType" name="sellerType" placeholder="e.g., dealer">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="radius">Radius (miles)</label>
+                        <input type="number" id="radius" name="radius" min="1" placeholder="e.g., 50 ">
+                    </div>
+                    <div class="form-group">
+                        <label for="latitude">Latitude</label>
+                        <input type="number" id="latitude" name="latitude" step="any" placeholder="e.g., 34.0522">
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">Longitude</label>
+                        <input type="number" id="longitude" name="longitude" step="any" placeholder="e.g., -118.2437">
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicleExteriorColors">Exterior Colors</label>
+                        <input type="text" id="vehicleExteriorColors" name="vehicleExteriorColors" data-array="comma" placeholder="Comma-separated, e.g., red,blue">
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicleInteriorColors">Interior Colors</label>
+                        <input type="text" id="vehicleInteriorColors" name="vehicleInteriorColors" data-array="comma" placeholder="Comma-separated, e.g., black">
+                    </div>
+                    <div class="form-group">
+                        <label for="category_ids">Category IDs</label>
+                        <input type="text" id="category_ids" name="category_ids" data-array="comma" placeholder="Comma-separated IDs">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="minMPG">Min MPG</label>
+                        <input type="number" id="minMPG" name="minMPG" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="minSeatingCapacity">Min Seating</label>
+                        <input type="number" id="minSeatingCapacity" name="minSeatingCapacity" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location_id">Location ID</label>
+                        <input type="text" id="location_id" name="location_id" placeholder="e.g., category">
+                    </div>
+                    <div class="form-group">
+                        <label for="availability">Availability</label>
+                        <input type="text" id="availability" name="availability" placeholder="e.g., in stock/out of stock">
+                    </div>
+                </div>
+            </details>
+        </section>
+    </form>
+    <section class="base-url-section">
+        <label for="baseUrl">Base URL</label>
+        <input type="text" id="baseUrl" value="https://www.facebook.com/marketplace/category/search/">
+        <button id="toggleBaseUrlLock" title="Toggle Base URL lock">🔓</button>
+    </section>
+
+</main>
+
+<footer>
+    <p>
+        <a href="https://github.com/fukaraca" target="_blank" rel="noopener noreferrer">GitHub</a> |
+        <a href="https://www.linkedin.com/in/fukaraca" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
